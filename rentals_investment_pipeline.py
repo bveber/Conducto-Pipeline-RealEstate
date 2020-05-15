@@ -19,7 +19,7 @@ pd.options.display.max_columns = None
 # Constant parameters used in API request
 RADIUS = '10'
 SORT = 'price_low'
-ZIP_CODES = ['55414', '55426', '53711', '53545', '53202', '55806']
+ZIP_CODES = ['55414', '53711', '53545', '53202', '55806']
 
 
 def run(api_key: str) -> co.Serial:
@@ -271,19 +271,22 @@ def analyze():
         # If data is available calculate profitabilty metric and show top-level KPIs for each zip code
         if rental_df is not None and sales_df is not None:
             d[zip_code] = rental_df['price_per_sqft'].median()/sales_df['price_per_sqft'].median()
-            print(
-                f"""
+            print(f"""
                 Number of rentals: {len(rental_df)}
                 Number of properties for sale: {len(sales_df)}
-                KPI data for {zip_code}:
+                """)
+            print(
+                f"""
                 <ConductoMarkdown>
-                {rental_df[['price_per_sqft', 'price_per_beds', 'price_per_bath']].median(axis=0).to_markdown()}
+                KPI data for {zip_code}:
+                {rental_df[['price_per_sqft', 'price_per_beds', 'price_per_bath']].median(axis=0).to_markdown()}\n
                 {sales_df[['price_per_sqft', 'price_per_beds', 'price_per_bath']].median(axis=0).to_markdown()}
                 </ConductoMarkdown>"""
                   )
     # Show zip codes sorted by profitability
+    print('Zip codes sorted by potential profitability')
     print(
-        f"""Zip codes sorted by potential profitability
+        f"""
         <ConductoMarkdown>
         {(pd.Series(d).rename('Rentals($/SqFt) / For-Sale($/SqFt)').sort_values(ascending=False)).to_markdown()}
         </ConductoMarkdown>
