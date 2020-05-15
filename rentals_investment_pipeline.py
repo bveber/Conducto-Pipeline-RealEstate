@@ -277,19 +277,19 @@ def analyze():
                 """)
             print(
                 f"""
-                <ConductoMarkdown>
-                KPI data for {zip_code}:
-                {rental_df[['price_per_sqft', 'price_per_beds', 'price_per_bath']].median(axis=0).to_markdown()}\n
-                {sales_df[['price_per_sqft', 'price_per_beds', 'price_per_bath']].median(axis=0).to_markdown()}
-                </ConductoMarkdown>"""
+KPI data for {zip_code}:
+<ConductoMarkdown>
+{rental_df[['price_per_sqft', 'price_per_beds', 'price_per_bath']].median(axis=0).to_markdown()}\n
+{sales_df[['price_per_sqft', 'price_per_beds', 'price_per_bath']].median(axis=0).to_markdown()}
+</ConductoMarkdown>"""
                   )
     # Show zip codes sorted by profitability
     print('Zip codes sorted by potential profitability')
     print(
         f"""
-        <ConductoMarkdown>
-        {(pd.Series(d).rename('Rentals($/SqFt) / For-Sale($/SqFt)').sort_values(ascending=False)).to_markdown()}
-        </ConductoMarkdown>
+<ConductoMarkdown>
+{pd.Series(d).rename('Rentals($/SqFt) / For-Sale($/SqFt)').sort_values(ascending=False).to_markdown()}
+</ConductoMarkdown>
         """
     )
 
